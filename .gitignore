@@ -1,0 +1,6 @@
+# General Folders
+.idea
+node_modules
+
+# Lock Files
+yarn.lock
