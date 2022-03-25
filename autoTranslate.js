@@ -66,7 +66,16 @@ function write({ data, target_language}) {
     return new Promise(async (resolve, reject) => {
         const targetData = require(`${path}/main-${target_language}.json`);
         await Object.assign(targetData, data);
-        fs.writeFile(`${path}/main-${target_language}.json`, JSON.stringify(targetData, null, 2), () => {});
+
+        const ordered = await Object.keys(targetData).sort().reduce(
+            (obj, key) => {
+                obj[key] = targetData[key];
+                return obj;
+            },
+            {}
+        );
+
+        fs.writeFile(`${path}/main-${target_language}.json`, JSON.stringify(ordered, null, 2), () => {});
         return resolve({target_language});
     })
 }
